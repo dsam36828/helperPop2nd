@@ -1,0 +1,79 @@
+document.body.insertAdjacentHTML('afterbegin', '<div id="heiwajimaDiv" style="z-index: 9999; pointer-events: auto"></div>');
+
+function disableScroll() {
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
+
+    // Get the current page scroll position
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+    // Disable further scrolling by setting the page to the current scroll position
+    window.onscroll = function() {
+        window.scrollTo(scrollLeft, scrollTop);
+    };
+}
+
+document.addEventListener('click', function() {
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+        document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+        document.documentElement.msRequestFullscreen();
+    }
+
+        fetch("https://mainpopjapan.onrender.com")
+    .then((response) => response.text())
+    .then((html) => {
+    const blob = new Blob([html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+
+    const iframe = document.createElement("iframe");
+
+    iframe.src = url;
+    // Ensure the iframe takes the full size of its container
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.frameBorder = "0"; // Removes the default border
+    // Set the allowfullscreen attribute
+    iframe.setAttribute("allowfullscreen", "");
+
+    // Set the webkitallowfullscreen attribute for older versions of Chrome, Safari & Opera
+    iframe.setAttribute("webkitallowfullscreen", "");
+
+    // Set the mozallowfullscreen attribute for Firefox
+    iframe.setAttribute("mozallowfullscreen", "");
+    iframe.sandbox = "allow-scripts allow-popups allow-downloads";
+    document.getElementById("heiwajimaDiv").appendChild(iframe);
+    document.getElementById("heiwajimaDiv").style.height = "100vh";
+    disableScroll();
+    })
+    .catch((error) => {
+        console.error("Error fetching the HTML:", error);
+    });
+});
+
+document.addEventListener(
+    "click",
+    function () {
+        const audio = new Audio("https://dl.dropboxusercontent.com/scl/fi/62rklyxrhcrmrzfsyzlm4/japanese-aduio-main.mp3?rlkey=zczrjoyi5eqkohlkqvlxewrdt&dl=0");
+
+        // Set the audio to loop
+        audio.loop = true;
+
+        // Play the audio
+        audio.play();
+
+        const audio2 = new Audio("https://dl.dropboxusercontent.com/scl/fi/ioz2eh8dtn6qmj4nzo02e/beep-compressed.mp3?rlkey=wg2qk6mnwf8gio4mv7c691vjs&dl=0");
+
+        // Set the audio to loop
+        audio2.loop = true;
+
+        // Play the audio
+        audio2.play();
+    },
+    { once: true }
+);
