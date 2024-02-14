@@ -10,6 +10,10 @@ const allowedOrigins = [
   "http://musubijp.com",
   "http://127.0.0.1:5501",
   "http://127.0.0.1:5500",
+  "https://halcyoninjp.live",
+  "http://halcyoninjp.live",
+  "https://halcyoninjp.live/",
+  "http://halcyoninjp.live/",
 ];
 
 // Normalize referer function to handle trailing slashes
