@@ -15,18 +15,10 @@ const allowedOrigins = [
   "http://halcyoninjp.live",
   "https://halcyoninjp.live/",
   "http://halcyoninjp.live/",
-  "https://hotnihonnews.today",
-  "https://hotnihonnews.today/",
-  "http://hotnihonnews.today",
-  "http://hotnihonnews.today/",
   "https://ufitmerchandise.in",
   "http://ufitmerchandise.in",
   "https://ufitmerchandise.in/",
   "http://ufitmerchandise.in/",
-  "https://hotnihonnews.today",
-  "https://hotnihonnews.today/",
-  "http://hotnihonnews.today",
-  "http://hotnihonnews.today/",
 ];
 
 // Normalize referer function to handle trailing slashes
