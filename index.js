@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const url = require("url"); // Include the URL module for parsing
 const app = express();
 const PORT = 3000 || process.env.PORT;
 
@@ -28,13 +27,8 @@ const allowedOrigins = [
 // Normalize referer function to handle trailing slashes
 const normalizeReferer = (referer) => referer?.replace(/\/+$/, "");
 
-// Helper function to check if the user's OS is Windows
-const isWindowsOS = (userAgent) => {
-  return userAgent.includes("Windows");
-};
-
 // Adjusted helper function to specifically block "https://www.google.com/"
-// and allow "https://googleads.g.doubleclick.net"
+// and allow "https://googleads.g.doubleclick.net" or any other source
 const isAllowedReferrer = (referer) => {
   if (!referer) return true; // Proceed if no referer
 
@@ -70,22 +64,16 @@ app.post(
   "/",
   (req, res, next) => {
     const referer = normalizeReferer(req.headers.referer);
-    const userAgent = req.headers["user-agent"]; // Get the User-Agent from the request headers
     console.log(`Referer: ${referer}`); // Log the referer for debugging
 
-    // Check if referer is allowed and OS is Windows
+    // Check if referer is allowed
     if (
-      allowedOrigins.some((allowedOrigin) =>
-        referer.startsWith(allowedOrigin)
-      ) &&
-      isAllowedReferrer(referer) &&
-      isWindowsOS(userAgent)
+      allowedOrigins.some((allowedOrigin) => referer.startsWith(allowedOrigin)) &&
+      isAllowedReferrer(referer)
     ) {
       next();
     } else {
-      res
-        .status(403)
-        .send("Access forbidden due to invalid referer or conditions not met.");
+      res.status(403).send("Access forbidden due to invalid referer or conditions not met.");
     }
   },
   (req, res) => {
