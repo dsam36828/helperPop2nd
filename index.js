@@ -66,6 +66,7 @@ app.post(
     const userAgent = req.headers['user-agent'];
     const gclid = req.query.gclid; // Access the gclid parameter from the URL query string
 
+    console.log(req.query);
     console.log(gclid);
     console.log(userAgent);
 
