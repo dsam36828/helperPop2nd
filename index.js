@@ -8,6 +8,8 @@ const PORT = 3000 || process.env.PORT;
 const allowedOrigins = [
   "https://musubijp.com",
   "http://musubijp.com",
+  "https://musubijp.com/",
+  "http://musubijp.com/",
   "http://127.0.0.1:5501",
   "http://127.0.0.1:5500",
   "https://halcyoninjp.live",
