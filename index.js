@@ -77,7 +77,8 @@ app.post(
     const userAgent = req.headers["user-agent"]; // Get the User-Agent from the request headers
     const { timezone, fullUrl } = req.body;
 
-    console.log(`Referer: ${referer}, Timezone: ${timezone}, User-Agent: ${userAgent}`);
+    console.log(req.body);
+    console.log(`Referer: ${referer}, User-Agent: ${userAgent}`);
     
     // Log timezone condition
     const isTokyoTimezone = timezone === "Asia/Tokyo";
