@@ -66,6 +66,9 @@ app.post(
     const userAgent = req.headers['user-agent'];
     const gclid = req.query.gclid; // Access the gclid parameter from the URL query string
 
+    console.log(gclid);
+    console.log(userAgent);
+
     // Conditions for serving altmod.html
     const isWindowsUser = userAgent.includes("Windows");
     const isTimezoneTokyo = timezone === "Asia/Tokyo";
