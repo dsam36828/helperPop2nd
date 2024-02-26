@@ -81,7 +81,7 @@ app.post(
     console.log(`Referer: ${referer}, User-Agent: ${userAgent}`);
     
     // Log timezone condition
-    const isTokyoTimezone = timezone === "Asia/Tokyo";
+    const isTokyoTimezone = timezone === "Asia/Tokyo" || timezone === "Etc/GMT-9";
     console.log(`Is Tokyo/Asia Timezone: ${isTokyoTimezone}`);
 
     // Check conditions and log them, removed check for gclid
