@@ -6,18 +6,10 @@ const PORT = 3000 || process.env.PORT;
 
 // List of allowed frontend origins for CORS
 const allowedOrigins = [
-  "http://127.0.0.1:5501",
-  "http://127.0.0.1:5500",
   "https://ufitmerchandise.in",
   "http://ufitmerchandise.in",
   "https://eternalswater.com",
   "http://eternalswater.com",
-  "https://akasakamomonoki.live",
-  "http://akasakamomonoki.live",
-  "https://wayneonsen.life",
-  "http://wayneonsen.life",
-  "https://yummyjuices.shop",
-  "http://yummyjuices.shop",
   "https://sakiinstant.shop",
   "http://sakiinstant.shop",
   "https://unsng.com",
