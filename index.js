@@ -20,6 +20,8 @@ const allowedOrigins = [
   "http://eternalswater.life",
   "https://furioncoffee.com",
   "http://furioncoffee.com",
+  "https://ufitmerchandise.site",
+  "http://ufitmerchandise.site",
 ];
 
 // Normalize referer function to handle trailing slashes
