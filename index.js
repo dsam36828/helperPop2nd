@@ -6,12 +6,6 @@ const PORT = 3000 || process.env.PORT;
 
 // List of allowed frontend origins for CORS
 const allowedOrigins = [
-  "https://sakiinstant.shop",
-  "http://sakiinstant.shop",
-  "https://unsng.com",
-  "http://unsng.com",
-  "https://www.unsng.com",
-  "http://www.unsng.com",
   "https://tokyopizzastudio.com",
   "http://tokyopizzastudio.com",
   "https://fushiwellness.site",
@@ -34,6 +28,14 @@ const allowedOrigins = [
   "http://thebuddhalife.com",
   "http://heshibodycare.com",
   "https://heshibodycare.com",
+  "https://ufitbodycare.com",
+  "http://ufitbodycare.com",
+  "https://www.ufitbodycare.com",
+  "http://www.ufitbodycare.com",
+  "https://hisashieats.com",
+  "http://hisashieats.com",
+  "https://www.hisashieats.com",
+  "http://www.hisashieats.com",
 ];
 
 // Normalize referer function to handle trailing slashes
