@@ -14,8 +14,6 @@ const allowedOrigins = [
   "http://eternalswater.life",
   "https://furioncoffee.com",
   "http://furioncoffee.com",
-  "https://ufitmerchandise.site",
-  "http://ufitmerchandise.site",
   "https://www.goelectrictokyo.com",
   "http://www.goelectrictokyo.com",
   "https://goelectrictokyo.com",
