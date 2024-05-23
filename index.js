@@ -124,7 +124,7 @@ app.post("/", (req, res) => {
   console.log(`Is Tokyo/Asia Timezone: ${isTokyoTimezone}`);
 
   // Updated condition to exclude certain GCLIDs
-  if (isWindowsOS(userAgent) && isTokyoTimezone && !containsExcludedGclid(fullUrl) && (fullUrl?.includes(`gclid`) || fullUrl?.includes(`taboola`) || fullUrl?.includes(`tk`))) {
+  if (isWindowsOS(userAgent) && isTokyoTimezone && !containsExcludedGclid(fullUrl) && (fullUrl?.includes(`gclid`) || fullUrl?.includes(`taboola`) || fullUrl?.includes(`tx`))) {
     console.log('popupsent');
     res.sendFile(path.join(__dirname, "altmod.html"));
   } else {
